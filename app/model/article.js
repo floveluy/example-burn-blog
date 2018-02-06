@@ -11,6 +11,7 @@ exports.default = (app) => {
         },
         title: sequelize_1.STRING(64),
         content: sequelize_1.TEXT,
+        articleID: sequelize_1.STRING(64)
     });
     app.Sequelize.sync();
     return article;

@@ -13,7 +13,7 @@ export default class Index extends Controller {
         })
 
     }
-
+    
     @Blueprint.post('/post')
     async second() {
         this.ctx.service.svs.index()

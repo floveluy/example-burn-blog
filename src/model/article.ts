@@ -1,6 +1,10 @@
 import { Burn } from 'burnjs';
 import { Sequelize, BIGINT, TEXT, STRING, Model } from 'sequelize';
 
+interface Article {
+
+}
+
 export default (app: Burn) => {
     const article = app.Sequelize.define('article', {
         id: {
@@ -11,6 +15,7 @@ export default (app: Burn) => {
         },
         title: STRING(64),
         content: TEXT,
+        articleID: STRING(64)
     });
     app.Sequelize.sync();
     return article
