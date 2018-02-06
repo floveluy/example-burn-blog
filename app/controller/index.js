@@ -7,40 +7,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const burnjs_1 = require("burnjs");
-class Index extends burnjs_1.Controller {
+let Index = class Index extends burnjs_1.Controller {
     async insertModel(name) {
         console.log(this.ctx.body);
         await this.ctx.model[name].create(this.ctx.request.body);
     }
-    async getArticle() {
+    async Get() {
         this.ctx.body = this.ctx.params.id;
     }
-    async createArticle() {
+    async Post() {
+        this.ctx.body = this.ctx.params.id;
         await this.insertModel('article');
     }
-    async second() {
-        this.ctx.service.svs.index();
+    async Del() {
     }
-    async third() {
-        this.ctx.service.svs.index();
+    async Put() {
     }
-    async forth() {
-        this.ctx.service.svs.index();
-    }
-}
-__decorate([
-    burnjs_1.Blueprint.get('/article/:id')
-], Index.prototype, "getArticle", null);
-__decorate([
-    burnjs_1.Blueprint.post('/article')
-], Index.prototype, "createArticle", null);
-__decorate([
-    burnjs_1.Blueprint.post('/post')
-], Index.prototype, "second", null);
-__decorate([
-    burnjs_1.Blueprint.put('/put')
-], Index.prototype, "third", null);
-__decorate([
-    burnjs_1.Blueprint.del('/del')
-], Index.prototype, "forth", null);
+};
+Index = __decorate([
+    burnjs_1.Blueprint.restfulClass('/article/:id')
+], Index);
 exports.default = Index;
