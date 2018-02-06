@@ -8,13 +8,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const burnjs_1 = require("burnjs");
 class Index extends burnjs_1.Controller {
-    async first() {
-        this.ctx.service.svs.index();
-        await this.ctx.model.article.create({
-            id: Date.now(),
-            title: '第一个标题',
-            content: '第一个内容',
-        });
+    async insertModel(name) {
+        console.log(this.ctx.body);
+        await this.ctx.model[name].create(this.ctx.request.body);
+    }
+    async getArticle() {
+        this.ctx.body = this.ctx.params.id;
+    }
+    async createArticle() {
+        await this.insertModel('article');
     }
     async second() {
         this.ctx.service.svs.index();
@@ -27,8 +29,11 @@ class Index extends burnjs_1.Controller {
     }
 }
 __decorate([
-    burnjs_1.Blueprint.get('/')
-], Index.prototype, "first", null);
+    burnjs_1.Blueprint.get('/article/:id')
+], Index.prototype, "getArticle", null);
+__decorate([
+    burnjs_1.Blueprint.post('/article')
+], Index.prototype, "createArticle", null);
 __decorate([
     burnjs_1.Blueprint.post('/post')
 ], Index.prototype, "second", null);

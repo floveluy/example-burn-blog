@@ -1,8 +1,10 @@
 import { Burn } from 'burnjs';
 import { Sequelize, BIGINT, TEXT, STRING, Model } from 'sequelize';
 
-interface Article {
-
+export interface ArticleModel {
+    title: string
+    content: string
+    articleID: string
 }
 
 export default (app: Burn) => {
@@ -29,7 +31,8 @@ declare module 'burnjs' {
 declare module "koa" {
     export interface BaseContext {
         model: {
-            article: Model<{}, {}>
+            article: Model<{}, {}>,
+            [key: string]: any
         }
     }
 }

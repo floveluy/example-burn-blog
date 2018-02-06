@@ -3,17 +3,21 @@ import { Controller, Blueprint } from 'burnjs';
 
 
 export default class Index extends Controller {
-    @Blueprint.get('/')
-    async first() {
-        this.ctx.service.svs.index()
-        await this.ctx.model.article.create({
-            id: Date.now(),
-            title: '第一个标题',
-            content: '第一个内容',
-        })
-
+    async insertModel(name: string) {
+        console.log(this.ctx.body)
+        await this.ctx.model[name].create(this.ctx.request.body);
     }
-    
+
+    @Blueprint.get('/article/:id')
+    async getArticle() {
+        this.ctx.body = this.ctx.params.id;
+    }
+
+    @Blueprint.post('/article')
+    async createArticle() {
+        await this.insertModel('article');
+    }
+
     @Blueprint.post('/post')
     async second() {
         this.ctx.service.svs.index()
