@@ -1,8 +1,7 @@
 import { Burn } from 'burnjs';
-import { Sequelize, BIGINT, TEXT,STRING } from 'sequelize';
+import { Sequelize, BIGINT, TEXT, STRING } from 'sequelize';
 
 export default (app: Burn) => {
-
     const article = app.Sequelize.define('article', {
         id: {
             type: BIGINT,
@@ -10,7 +9,7 @@ export default (app: Burn) => {
             unique: true,
             autoIncrement: true
         },
-        title:STRING(64),
+        title: STRING(64),
         content: TEXT,
     });
     app.Sequelize.sync();
