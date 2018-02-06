@@ -1,5 +1,5 @@
 import { Burn } from 'burnjs';
-import { Sequelize, BIGINT, TEXT, STRING } from 'sequelize';
+import { Sequelize, BIGINT, TEXT, STRING, Model } from 'sequelize';
 
 export default (app: Burn) => {
     const article = app.Sequelize.define('article', {
@@ -19,5 +19,12 @@ export default (app: Burn) => {
 declare module 'burnjs' {
     export interface Burn {
         Sequelize: Sequelize;
+    }
+}
+declare module "koa" {
+    export interface BaseContext {
+        model: {
+            article: Model<{}, {}>
+        }
     }
 }

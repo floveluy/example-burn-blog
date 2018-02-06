@@ -10,6 +10,11 @@ const burnjs_1 = require("burnjs");
 class Index extends burnjs_1.Controller {
     async first() {
         this.ctx.service.svs.index();
+        await this.ctx.model.article.create({
+            id: Date.now(),
+            title: '第一个标题',
+            content: '第一个内容',
+        });
     }
     async second() {
         this.ctx.service.svs.index();
