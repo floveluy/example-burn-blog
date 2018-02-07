@@ -20,13 +20,21 @@ export default class Index extends Controller {
         }
     }
 
+    @Blueprint.get('/articles/:start')
+    async getArticleList() {
+        const list = await this.ctx.model.article.findAll({
+            limit: 5,
+            offset: parseInt(this.ctx.params.start) * 5
+        })
+        this.ctx.body = JSON.stringify(list);
+    }
+
     async Post() {
         await this.insertModel('article');
     }
 
     async Del() {
         const id = this.ctx.params.id;
-
         this.ctx.model.article.destroy({
             where: {
                 id: id

@@ -22,6 +22,13 @@ let Index = class Index extends burnjs_1.Controller {
             this.ctx.body = JSON.stringify(d);
         }
     }
+    async getArticleList() {
+        const list = await this.ctx.model.article.findAll({
+            limit: 5,
+            offset: parseInt(this.ctx.params.start) * 5
+        });
+        this.ctx.body = JSON.stringify(list);
+    }
     async Post() {
         await this.insertModel('article');
     }
@@ -47,6 +54,9 @@ let Index = class Index extends burnjs_1.Controller {
 __decorate([
     burnjs_1.Blueprint.get('/article/:id')
 ], Index.prototype, "getArticle", null);
+__decorate([
+    burnjs_1.Blueprint.get('/articles/:start')
+], Index.prototype, "getArticleList", null);
 Index = __decorate([
     burnjs_1.Blueprint.restfulClass('/article')
 ], Index);

@@ -20,6 +20,7 @@ export default (app: Burn) => {
         articleID: STRING(64)
     });
     app.Sequelize.sync();
+    
     return article
 }
 

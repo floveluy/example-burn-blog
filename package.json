@@ -5,7 +5,8 @@
     "main": "app/start",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "./node_modules/nodemon/bin/nodemon.js"
+        "dev": "./node_modules/nodemon/bin/nodemon.js",
+        "tree": "tree -I '*svn|*node_module*|book*|code'"
     },
     "keywords": [],
     "author": "",
