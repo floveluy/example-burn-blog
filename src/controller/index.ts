@@ -3,11 +3,8 @@ import { Controller, Blueprint } from 'burnjs';
 
 @Blueprint.restfulClass('/article')
 export default class Index extends Controller {
-    async insertModel(name: string) {
-        console.log(this.ctx.body)
-        await this.ctx.model[name].create(this.ctx.request.body);
-    }
 
+    //获取文章的接口
     @Blueprint.get('/article/:id')
     async getArticle() {
         const d: any | null = await this.ctx.model.article.findOne({
@@ -20,6 +17,7 @@ export default class Index extends Controller {
         }
     }
 
+    //获取列表的接口
     @Blueprint.get('/articles/:start')
     async getArticleList() {
         const list = await this.ctx.model.article.findAll({
@@ -29,10 +27,12 @@ export default class Index extends Controller {
         this.ctx.body = JSON.stringify(list);
     }
 
+    //发布文章的接口
     async Post() {
-        await this.insertModel('article');
+        this.ctx.model.article.create(this.ctx.request.body)
     }
 
+    //删除文章的接口
     async Del() {
         const id = this.ctx.params.id;
         this.ctx.model.article.destroy({
@@ -42,6 +42,7 @@ export default class Index extends Controller {
         })
     }
 
+    //跟新文章的接口
     async Put() {
         this.ctx.model.article.update({
             content: this.ctx.request.body.content,
