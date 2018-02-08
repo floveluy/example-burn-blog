@@ -5,6 +5,7 @@ export interface ArticleModel {
     title: string
     content: string
     articleID: string
+    created_at: string
 }
 
 export default (app: Burn) => {
@@ -20,7 +21,7 @@ export default (app: Burn) => {
         articleID: STRING(64)
     });
     app.Sequelize.sync();
-    
+
     return article
 }
 
@@ -33,6 +34,7 @@ declare module "koa" {
     export interface BaseContext {
         model: {
             article: Model<{}, {}>,
+            comments: Model<{}, {}>,
             [key: string]: any
         }
     }

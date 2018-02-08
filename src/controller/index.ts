@@ -1,57 +1,39 @@
 import { Controller, Blueprint } from 'burnjs';
 
-
 @Blueprint.restfulClass('/article')
 export default class Index extends Controller {
-
     //获取文章的接口
     @Blueprint.get('/article/:id')
     async getArticle() {
-        const d: any | null = await this.ctx.model.article.findOne({
-            where: {
-                articleID: this.ctx.params.id
-            }
-        })
-        if (d) {
-            this.ctx.body = JSON.stringify(d);
+        const articleEntity = await this.ctx.service.article.get();
+        if (articleEntity) {
+            this.ctx.body = JSON.stringify(articleEntity);
+        } else {
+            this.ctx.body = '没有文章';
         }
     }
 
     //获取列表的接口
     @Blueprint.get('/articles/:start')
     async getArticleList() {
-        const list = await this.ctx.model.article.findAll({
-            limit: 5,
-            offset: parseInt(this.ctx.params.start) * 5
-        })
+        const list = await this.ctx.service.article.list(5);
         this.ctx.body = JSON.stringify(list);
+        this.ctx.set('Content-Type', 'application/json');
     }
 
     //发布文章的接口
     async Post() {
-        this.ctx.model.article.create(this.ctx.request.body)
+        await this.ctx.service.article.create();
     }
 
     //删除文章的接口
     async Del() {
-        const id = this.ctx.params.id;
-        this.ctx.model.article.destroy({
-            where: {
-                id: id
-            }
-        })
+        await this.ctx.service.article.delete();
     }
 
-    //跟新文章的接口
+    //更新文章的接口
     async Put() {
-        this.ctx.model.article.update({
-            content: this.ctx.request.body.content,
-            title: this.ctx.request.body.title
-        }, {
-                where: {
-                    articleId: this.ctx.request.body.articleId
-                }
-            })
+        await this.ctx.service.article.update();
     }
 }
 

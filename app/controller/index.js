@@ -8,47 +8,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const burnjs_1 = require("burnjs");
 let Index = class Index extends burnjs_1.Controller {
-    async insertModel(name) {
-        console.log(this.ctx.body);
-        await this.ctx.model[name].create(this.ctx.request.body);
-    }
+    //获取文章的接口
     async getArticle() {
-        const d = await this.ctx.model.article.findOne({
-            where: {
-                articleID: this.ctx.params.id
-            }
-        });
-        if (d) {
-            this.ctx.body = JSON.stringify(d);
+        const articleEntity = await this.ctx.service.article.get();
+        if (articleEntity) {
+            this.ctx.body = JSON.stringify(articleEntity);
+        }
+        else {
+            this.ctx.body = '没有文章';
         }
     }
+    //获取列表的接口
     async getArticleList() {
-        const list = await this.ctx.model.article.findAll({
-            limit: 5,
-            offset: parseInt(this.ctx.params.start) * 5
-        });
+        const list = await this.ctx.service.article.list(5);
         this.ctx.body = JSON.stringify(list);
+        this.ctx.set('Content-Type', 'application/json');
     }
+    //发布文章的接口
     async Post() {
-        await this.insertModel('article');
+        await this.ctx.service.article.create();
     }
+    //删除文章的接口
     async Del() {
-        const id = this.ctx.params.id;
-        this.ctx.model.article.destroy({
-            where: {
-                id: id
-            }
-        });
+        await this.ctx.service.article.delete();
     }
+    //更新文章的接口
     async Put() {
-        this.ctx.model.article.update({
-            content: this.ctx.request.body.content,
-            title: this.ctx.request.body.title
-        }, {
-            where: {
-                articleId: this.ctx.request.body.articleId
-            }
-        });
+        await this.ctx.service.article.update();
     }
 };
 __decorate([
