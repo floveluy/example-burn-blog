@@ -15,6 +15,7 @@ export default class Article extends Service {
     }
 
     async create() {
+        // console.log(this.ctx.request.body)
         this.ctx.model.article.create(this.ctx.request.body);
     }
 

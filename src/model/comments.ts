@@ -9,6 +9,7 @@ export interface CommmentModel {
 }
 
 export default (app: Burn) => {
+
     const commment = app.Sequelize.define('commment', {
         id: {
             type: BIGINT,

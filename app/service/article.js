@@ -14,6 +14,7 @@ class Article extends burnjs_1.Service {
         return null;
     }
     async create() {
+        // console.log(this.ctx.request.body)
         this.ctx.model.article.create(this.ctx.request.body);
     }
     async update() {

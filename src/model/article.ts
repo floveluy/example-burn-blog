@@ -1,5 +1,6 @@
 import { Burn } from 'burnjs';
 import { Sequelize, BIGINT, TEXT, STRING, Model } from 'sequelize';
+const seq = require('sequelize');
 
 export interface ArticleModel {
     title: string
@@ -8,8 +9,19 @@ export interface ArticleModel {
     created_at: string
 }
 
+
+
+
+
 export default (app: Burn) => {
-    const article = app.Sequelize.define('article', {
+
+    class article extends seq.Model {
+        // coding...
+        static foo() {
+            console.log('可以调用了')
+        }
+    }
+    article.init({
         id: {
             type: BIGINT,
             primaryKey: true,
@@ -19,8 +31,7 @@ export default (app: Burn) => {
         title: STRING(64),
         content: TEXT,
         articleID: STRING(64)
-    });
-    app.Sequelize.sync();
+    }, { sequelize: app.Sequelize });
 
     return article
 }
