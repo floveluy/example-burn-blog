@@ -32,7 +32,7 @@ export default (app: Burn) => {
         content: TEXT,
         articleID: STRING(64)
     }, { sequelize: app.Sequelize });
-
+    article.sync();
     return article
 }
 

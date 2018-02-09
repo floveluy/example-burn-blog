@@ -12,7 +12,8 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "burnjs": "^1.0.15",
+        "@koa/cors": "^2.2.1",
+        "burnjs": "^1.0.16",
         "nodemon": "^1.14.11",
         "sequelize": "^4.33.1"
     }
