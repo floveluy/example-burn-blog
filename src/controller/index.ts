@@ -1,7 +1,8 @@
-import { Controller, Blueprint } from 'burnjs';
+import { Blueprint } from 'burnjs';
+import { BaseController } from '../base/controller';
 
 @Blueprint.restfulClass('/article')
-export default class Index extends Controller {
+export default class Index extends BaseController {
     //获取文章的接口
     @Blueprint.get('/article/:id')
     async getArticle() {
@@ -11,16 +12,6 @@ export default class Index extends Controller {
         } else {
             this.ctx.body = '没有文章';
         }
-    }
-
-    Success(json: any) {
-        this.ctx.set({
-            "Content-Type": 'application/json',
-        })
-        this.ctx.body = JSON.stringify({
-            status: 'good',
-            data: json
-        });
     }
 
     //获取列表的接口

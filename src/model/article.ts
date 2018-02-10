@@ -1,5 +1,5 @@
 import { Burn } from 'burnjs';
-import { Sequelize, BIGINT, TEXT, STRING, Model } from 'sequelize';
+import { Sequelize, BIGINT, TEXT, STRING, Model, INTEGER } from 'sequelize';
 const seq = require('sequelize');
 
 export interface ArticleModel {
@@ -8,9 +8,6 @@ export interface ArticleModel {
     articleID: string
     created_at: string
 }
-
-
-
 
 
 export default (app: Burn) => {
@@ -30,9 +27,17 @@ export default (app: Burn) => {
         },
         title: STRING(64),
         content: TEXT,
-        articleID: STRING(64)
+        articleID: STRING(64),
+        commentCount: {
+            type: INTEGER,
+            defaultValue: 0
+        },
+        views: {
+            type: INTEGER,
+            defaultValue: 0
+        }
     }, { sequelize: app.Sequelize });
-    article.sync();
+    article.sync({ alter: true })
     return article
 }
 

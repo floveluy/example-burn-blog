@@ -7,7 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const burnjs_1 = require("burnjs");
-let Index = class Index extends burnjs_1.Controller {
+const controller_1 = require("../base/controller");
+let Index = class Index extends controller_1.BaseController {
     //获取文章的接口
     async getArticle() {
         const articleEntity = await this.ctx.service.article.get();
@@ -17,15 +18,6 @@ let Index = class Index extends burnjs_1.Controller {
         else {
             this.ctx.body = '没有文章';
         }
-    }
-    Success(json) {
-        this.ctx.set({
-            "Content-Type": 'application/json',
-        });
-        this.ctx.body = JSON.stringify({
-            status: 'good',
-            data: json
-        });
     }
     //获取列表的接口
     async getArticleList() {

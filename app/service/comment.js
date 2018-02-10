@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const burnjs_1 = require("burnjs");
 class Comments extends burnjs_1.Service {
     async get() {
-        const d = await this.ctx.model.article.findOne({
+        const d = await this.ctx.model.comments.findOne({
             where: {
                 articleID: this.ctx.params.id
             }
@@ -14,7 +14,15 @@ class Comments extends burnjs_1.Service {
         return null;
     }
     async create() {
-        this.ctx.model.article.create(this.ctx.request.body);
+        console.log(this.ctx.request.body);
+        this.ctx.model.article.update({
+            commentCount: this.app.Sequelize.literal('commentCount+1')
+        }, {
+            where: {
+                articleID: this.ctx.request.body.articleID
+            }
+        });
+        this.ctx.model.comments.create(this.ctx.request.body);
     }
     async update() {
         this.ctx.model.article.update({
@@ -36,6 +44,9 @@ class Comments extends burnjs_1.Service {
     }
     async list(limits, start, articleID) {
         const list = await this.ctx.model.comments.findAll({
+            order: [
+                ['created_at', 'DESC']
+            ],
             where: {
                 articleID
             },

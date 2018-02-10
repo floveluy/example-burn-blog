@@ -8,6 +8,13 @@ export default class Article extends Service {
                 articleID: this.ctx.params.id
             }
         })
+        await this.ctx.model.article.update({
+            views: this.app.Sequelize.literal('views+1')
+        }, {
+                where: {
+                    articleID: this.ctx.params.id
+                }
+            })
         if (d) {
             return <ArticleModel>d
         }
@@ -39,13 +46,16 @@ export default class Article extends Service {
         })
     }
 
-    async list(limits: number): Promise<ArticleModel[] | null> {
-        const list = await this.ctx.model.article.findAll({
+    async list(limits: number) {
+        const list = await this.ctx.model.article.findAndCountAll({
+            order: [
+                ['id', 'DESC']
+            ],
             limit: limits,
             offset: parseInt(this.ctx.params.start) * limits
         })
         if (list) {
-            return <ArticleModel[]>list
+            return list
         }
         return null
     }

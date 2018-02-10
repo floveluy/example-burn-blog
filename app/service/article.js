@@ -8,6 +8,13 @@ class Article extends burnjs_1.Service {
                 articleID: this.ctx.params.id
             }
         });
+        await this.ctx.model.article.update({
+            views: this.app.Sequelize.literal('views+1')
+        }, {
+            where: {
+                articleID: this.ctx.params.id
+            }
+        });
         if (d) {
             return d;
         }
@@ -36,7 +43,10 @@ class Article extends burnjs_1.Service {
         });
     }
     async list(limits) {
-        const list = await this.ctx.model.article.findAll({
+        const list = await this.ctx.model.article.findAndCountAll({
+            order: [
+                ['id', 'DESC']
+            ],
             limit: limits,
             offset: parseInt(this.ctx.params.start) * limits
         });

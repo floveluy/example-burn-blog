@@ -18,8 +18,16 @@ exports.default = (app) => {
         },
         title: sequelize_1.STRING(64),
         content: sequelize_1.TEXT,
-        articleID: sequelize_1.STRING(64)
+        articleID: sequelize_1.STRING(64),
+        commentCount: {
+            type: sequelize_1.INTEGER,
+            defaultValue: 0
+        },
+        views: {
+            type: sequelize_1.INTEGER,
+            defaultValue: 0
+        }
     }, { sequelize: app.Sequelize });
-    article.sync();
+    article.sync({ alter: true });
     return article;
 };

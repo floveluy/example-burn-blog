@@ -13,5 +13,6 @@ exports.default = (app) => {
         content: sequelize_1.TEXT,
         articleID: sequelize_1.STRING(64)
     });
+    // commment.sync({ alter: true })
     return commment;
 };

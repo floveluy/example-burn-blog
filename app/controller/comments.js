@@ -7,13 +7,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const burnjs_1 = require("burnjs");
-class Index extends burnjs_1.Controller {
+const controller_1 = require("../base/controller");
+class Index extends controller_1.BaseController {
     //获取某个文章留言的接口
     async Get() {
-        this.ctx.body = await this.ctx.service.comment.list(5, this.ctx.params.start, this.ctx.params.articleId);
+        const list = await this.ctx.service.comment.list(10000, this.ctx.params.start, this.ctx.params.articleId);
+        this.Success(list);
     }
     //发布某个文章留言的接口
     async Post() {
+        await this.ctx.service.comment.create();
+        this.Success({});
     }
     //删除某个文章留言的接口
     async Del() {
@@ -23,7 +27,7 @@ __decorate([
     burnjs_1.Blueprint.get('/comments/:articleId/:start')
 ], Index.prototype, "Get", null);
 __decorate([
-    burnjs_1.Blueprint.post('/comments/:articleId')
+    burnjs_1.Blueprint.post('/comments')
 ], Index.prototype, "Post", null);
 __decorate([
     burnjs_1.Blueprint.del('/comments/:commentsId')

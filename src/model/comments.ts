@@ -21,5 +21,6 @@ export default (app: Burn) => {
         content: TEXT,
         articleID: STRING(64)
     });
+    // commment.sync({ alter: true })
     return commment
 }
