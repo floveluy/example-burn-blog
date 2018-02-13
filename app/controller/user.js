@@ -11,19 +11,25 @@ const controller_1 = require("../base/controller");
 function before(fn) {
     return function (target, property, propertyDescriptor) {
         let value = propertyDescriptor.value;
-        propertyDescriptor.value = function (...arg) {
-            if (fn.apply(this, [this])) {
-                value.apply(this, arg);
+        propertyDescriptor.value = async function (...arg) {
+            if (await fn.apply(this, [this])) {
+                await value.apply(this, arg);
             }
         };
     };
 }
-function auth(obj) {
+async function auth(obj) {
     const authorization = obj.ctx.request.headers.authorization;
     if (authorization.indexOf('token ') >= 0) {
         const token = authorization.substr(6);
-        if (token === '1234567890')
+        const res = await obj.ctx.model.user.findOne({
+            where: {
+                loginToken: token
+            }
+        });
+        if (res) {
             return true;
+        }
     }
     obj.Fail();
     return false;

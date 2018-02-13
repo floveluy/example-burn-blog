@@ -5,20 +5,27 @@ import { BaseController } from '../base/controller';
 function before(fn: Function) {
     return function (target: any, property: string | symbol, propertyDescriptor: PropertyDescriptor) {
         let value: Function = propertyDescriptor.value;
-        propertyDescriptor.value = function (...arg: any[]) {
-            if (fn.apply(this, [this])) {
-                value.apply(this, arg);
+        propertyDescriptor.value = async function (...arg: any[]) {
+            if (await fn.apply(this, [this])) {
+                await value.apply(this, arg);
             }
         }
     }
 }
-function auth(obj: BaseController) {
+
+async function auth(obj: BaseController) {
 
     const authorization = obj.ctx.request.headers.authorization
     if (authorization.indexOf('token ') >= 0) {
         const token = authorization.substr(6);
-        if (token === '1234567890')
+        const res = await obj.ctx.model.user.findOne({
+            where: {
+                loginToken: token
+            }
+        })
+        if (res) {
             return true;
+        }
     }
     obj.Fail();
     return false;
