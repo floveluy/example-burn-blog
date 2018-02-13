@@ -8,7 +8,9 @@
         "watch": false,
         "noUnusedLocals": true,
         "strict": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "strictFunctionTypes": true,
+        "strictPropertyInitialization": false
     },
     "include": [
         "src/**/*"

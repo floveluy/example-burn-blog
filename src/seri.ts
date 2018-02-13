@@ -51,7 +51,7 @@ function post(type: typeof Foo) {
         var orginFn = descriptor.value;
 
         descriptor.value = function (arg: any) {
-            
+
             orginFn(SerializationHelper.toInstance(new type(), arg));
         }
     }
