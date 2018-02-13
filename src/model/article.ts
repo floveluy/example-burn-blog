@@ -37,7 +37,7 @@ export default (app: Burn) => {
             defaultValue: 0
         }
     }, { sequelize: app.Sequelize });
-    article.sync({ alter: true })
+    // article.sync({ alter: true })
     return article
 }
 
@@ -51,6 +51,7 @@ declare module "koa" {
         model: {
             article: Model<{}, {}>,
             comments: Model<{}, {}>,
+            user: Model<{}, {}>,
             [key: string]: any
         }
     }

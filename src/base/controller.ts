@@ -10,5 +10,13 @@ export class BaseController extends Controller {
             data: json
         });
     }
-
+    Fail(json?: any) {
+        this.ctx.set({
+            "Content-Type": 'application/json',
+        })
+        this.ctx.body = JSON.stringify({
+            status: 'fail',
+            data: json
+        });
+    }
 }

@@ -11,5 +11,14 @@ class BaseController extends burnjs_1.Controller {
             data: json
         });
     }
+    Fail(json) {
+        this.ctx.set({
+            "Content-Type": 'application/json',
+        });
+        this.ctx.body = JSON.stringify({
+            status: 'fail',
+            data: json
+        });
+    }
 }
 exports.BaseController = BaseController;

@@ -28,6 +28,6 @@ exports.default = (app) => {
             defaultValue: 0
         }
     }, { sequelize: app.Sequelize });
-    article.sync({ alter: true });
+    // article.sync({ alter: true })
     return article;
 };
