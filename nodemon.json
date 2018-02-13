@@ -6,8 +6,8 @@
         "node_modules"
     ],
     "watch": [
-        "src"
+        "./"
     ],
-    "exec": "tsc&&node app/start.js",
+    "exec": "tsc&&node app/seri.js",
     "ext": "ts"
 }

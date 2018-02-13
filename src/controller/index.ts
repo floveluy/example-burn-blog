@@ -18,7 +18,7 @@ export default class Index extends BaseController {
     @Blueprint.get('/articles/:start')
     async getArticleList() {
         const list = await this.ctx.service.article.list(5);
-        this.Success(list)
+        this.Success(list);
     }
 
     //发布文章的接口
