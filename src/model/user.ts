@@ -27,7 +27,10 @@ export default (app: Burn) => {
         },
         loginToken: STRING(64)
     });
-
+    // user.create({
+    //     userName: 'floveluy',
+    //     password: 'metal_gear2'
+    // })
     // user.sync({ alter: true })
     return user
 }

@@ -19,6 +19,10 @@ exports.default = (app) => {
         },
         loginToken: sequelize_1.STRING(64)
     });
+    // user.create({
+    //     userName: 'floveluy',
+    //     password: 'metal_gear2'
+    // })
     // user.sync({ alter: true })
     return user;
 };

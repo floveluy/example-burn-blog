@@ -13,7 +13,6 @@ export default class User extends BaseController {
 
     @Blueprint.post('/login')
     async userLogin() {
-        console.log(this.ctx.request.headers)
         const { userName, password } = this.ctx.request.body;
         const res = await this.ctx.model.user.findOne({
             where: {
