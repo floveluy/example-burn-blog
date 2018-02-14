@@ -8,6 +8,6 @@
     "watch": [
         "./"
     ],
-    "exec": "tsc&&node app/seri.js",
+    "exec": "tsc&&NODE_ENV=development node app/start.js",
     "ext": "ts"
 }

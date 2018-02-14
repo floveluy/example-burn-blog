@@ -8,37 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const burnjs_1 = require("burnjs");
 const controller_1 = require("../base/controller");
-function before(fn) {
-    return function (target, property, propertyDescriptor) {
-        let value = propertyDescriptor.value;
-        propertyDescriptor.value = async function (...arg) {
-            if (await fn.apply(this, [this])) {
-                await value.apply(this, arg);
-            }
-        };
-    };
-}
-async function auth(obj) {
-    const authorization = obj.ctx.request.headers.authorization;
-    if (authorization.indexOf('token ') >= 0) {
-        const token = authorization.substr(6);
-        const res = await obj.ctx.model.user.findOne({
-            where: {
-                loginToken: token
-            }
-        });
-        if (res) {
-            return true;
-        }
-    }
-    obj.Fail();
-    return false;
-}
+const seri_1 = require("../extend/seri");
 class User extends controller_1.BaseController {
     async checkAuth() {
+        // console.log(this.ctx.request.body);
         this.Success({});
     }
-    //获取某个文章留言的接口
     async userLogin() {
         console.log(this.ctx.request.headers);
         const { userName, password } = this.ctx.request.body;
@@ -48,8 +23,14 @@ class User extends controller_1.BaseController {
             }
         });
         if (res) {
-            if (password === res['password'])
+            if (password === res['password']) {
                 this.Success({ token: '1234567890' });
+                await this.ctx.model.user.update({ loginToken: '1234567890' }, {
+                    where: {
+                        userName: userName
+                    }
+                });
+            }
             else
                 this.Fail();
         }
@@ -59,7 +40,7 @@ class User extends controller_1.BaseController {
 }
 __decorate([
     burnjs_1.Blueprint.get('/auth'),
-    before(auth)
+    seri_1.before(seri_1.auth)
 ], User.prototype, "checkAuth", null);
 __decorate([
     burnjs_1.Blueprint.post('/login')

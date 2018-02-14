@@ -41,3 +41,31 @@ function bodyType(type) {
     };
 }
 exports.bodyType = bodyType;
+function before(fn) {
+    return function (target, property, propertyDescriptor) {
+        let value = propertyDescriptor.value;
+        propertyDescriptor.value = async function (...arg) {
+            if (await fn.apply(this, [this])) {
+                await value.apply(this, arg);
+            }
+        };
+    };
+}
+exports.before = before;
+async function auth(obj) {
+    const authorization = obj.ctx.request.headers.authorization;
+    if (authorization.indexOf('token ') >= 0) {
+        const token = authorization.substr(6);
+        const res = await obj.ctx.model.user.findOne({
+            where: {
+                loginToken: token
+            }
+        });
+        if (res) {
+            return true;
+        }
+    }
+    obj.Fail();
+    return false;
+}
+exports.auth = auth;

@@ -1,6 +1,8 @@
 import { Blueprint } from 'burnjs';
 import { BaseController } from '../base/controller';
 
+
+
 @Blueprint.restfulClass('/article')
 export default class Index extends BaseController {
     //获取文章的接口
