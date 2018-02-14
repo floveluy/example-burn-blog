@@ -35,20 +35,14 @@ class Article extends burnjs_1.Service {
         });
     }
     async delete() {
-        const id = this.ctx.params.id;
-        this.ctx.model.article.destroy({
-            where: {
-                id: id
-            }
-        });
     }
-    async list(limits) {
+    async list(limits, start) {
         const list = await this.ctx.model.article.findAndCountAll({
             order: [
                 ['id', 'DESC']
             ],
             limit: limits,
-            offset: parseInt(this.ctx.params.start) * limits
+            offset: start * limits
         });
         if (list) {
             return list;

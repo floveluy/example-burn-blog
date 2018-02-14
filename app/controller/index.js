@@ -8,6 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const burnjs_1 = require("burnjs");
 const controller_1 = require("../base/controller");
+const seri_1 = require("../extend/seri");
+class ArticleDataModel extends seri_1.BaseDataModel {
+}
+__decorate([
+    seri_1.required
+], ArticleDataModel.prototype, "articleID", void 0);
 let Index = class Index extends controller_1.BaseController {
     //获取文章的接口
     async getArticle() {
@@ -21,7 +27,7 @@ let Index = class Index extends controller_1.BaseController {
     }
     //获取列表的接口
     async getArticleList() {
-        const list = await this.ctx.service.article.list(5);
+        const list = await this.ctx.service.article.list(5, parseInt(this.ctx.params.start));
         this.Success(list);
     }
     //发布文章的接口
@@ -30,8 +36,14 @@ let Index = class Index extends controller_1.BaseController {
         this.Success({});
     }
     //删除文章的接口
-    async Del() {
-        await this.ctx.service.article.delete();
+    async Del(body) {
+        await this.ctx.model.article.destroy({
+            where: {
+                articleID: body.articleID
+            }
+        });
+        const list = await this.ctx.service.article.list(5, 0);
+        this.Success(list);
     }
     //更新文章的接口
     async Put() {
@@ -44,6 +56,10 @@ __decorate([
 __decorate([
     burnjs_1.Blueprint.get('/articles/:start')
 ], Index.prototype, "getArticleList", null);
+__decorate([
+    seri_1.bodyType(ArticleDataModel),
+    seri_1.before(seri_1.auth)
+], Index.prototype, "Del", null);
 Index = __decorate([
     burnjs_1.Blueprint.restfulClass('/article')
 ], Index);

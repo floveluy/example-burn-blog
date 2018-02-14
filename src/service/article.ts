@@ -1,6 +1,9 @@
 import { Service } from "burnjs";
 import { ArticleModel } from "../model/article";
 
+
+
+
 export default class Article extends Service {
     async get(): Promise<ArticleModel | null> {
         const d: any | null = await this.ctx.model.article.findOne({
@@ -38,21 +41,16 @@ export default class Article extends Service {
     }
 
     async delete() {
-        const id = this.ctx.params.id;
-        this.ctx.model.article.destroy({
-            where: {
-                id: id
-            }
-        })
+
     }
 
-    async list(limits: number) {
+    async list(limits: number, start: number) {
         const list = await this.ctx.model.article.findAndCountAll({
             order: [
                 ['id', 'DESC']
             ],
             limit: limits,
-            offset: parseInt(this.ctx.params.start) * limits
+            offset: start * limits
         })
         if (list) {
             return list
